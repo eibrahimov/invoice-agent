@@ -1,0 +1,23 @@
+---
+description: Project high level components documentations 
+globs: 
+---
+CrewAI Invoice Manager Project Overview
+
+This project fully automates invoice processing by integrating CrewAI’s multi-agent system with Composio’s suite of tools. In this solution, Slack and Stripe are not used as standalone APIs but are leveraged as Composio tools within CrewAI agents and tasks. This approach follows the golden rule: all interactions with Slack and Stripe occur via the Composio tools, ensuring seamless integration and consistency across the system.
+
+Key components include:
+
+1. Slack Event Integration – A Slack App is created to subscribe to channel messages. Instead of directly using the Slack API, a dedicated Composio tool handles message events. A Flask webhook is deployed to capture incoming Slack messages, which are then processed by CrewAI agents using the Slack Composio tool.
+
+2. Message Parsing – The system extracts structured invoice data from Slack messages, such as company name, address, tax ID, email, full name, website, price, and job description. This extraction is performed using regex or LLM-based parsing methods, preparing the data for processing.
+
+3. CrewAI Agent Processing – A dedicated CrewAI agent acts as the invoice processor. Its role is to validate the invoice details and coordinate the entire process by delegating tasks. Using Composio tools, the agent interacts with both the Slack and Stripe systems, ensuring that every action is executed via the standardized tool interface.
+
+4. Invoice Creation with Stripe – Instead of directly calling the Stripe API, the system uses the Stripe Composio tool within a CrewAI task. Once the invoice data is validated and formatted, the agent initiates the invoice creation process through this tool. The tool handles tasks such as customer creation, invoice item setup, and finalization while managing errors and ensuring correct pricing.
+
+5. Slack Confirmation Notification – After invoice creation, a confirmation message is sent back to Slack using the Slack Composio tool. The agent posts the confirmation and invoice details (including a link to the Stripe invoice) back to the designated Slack channel, keeping the user informed.
+
+6. Testing and Deployment – The project is initially tested locally using tools like ngrok to expose the Flask app. For deployment, the project is set up on render.com and utilizes the Render CLI for deployment. This approach ensures a smooth, cloud-based rollout with production-ready configurations, comprehensive logging, and robust error handling.
+
+Overall, the CrewAI Invoice Manager integrates Slack and Stripe as Composio tools within its multi-agent architecture, and it is deployed to render.com using the Render CLI. This setup ensures that all interactions follow a consistent tool interface, resulting in a streamlined, maintainable, and scalable invoice management solution.

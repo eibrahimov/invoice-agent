@@ -2,7 +2,6 @@ __pycache__
 .env
 .venv
 .cursorrules
-/docs
 .DS_Store
 .cursorrules
 .env
